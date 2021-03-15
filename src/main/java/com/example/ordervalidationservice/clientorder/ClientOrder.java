@@ -3,8 +3,8 @@ package com.example.ordervalidationservice.clientorder;
 public class ClientOrder {
     private String orderId;
     private String product;
-    private double price;
     private int quantity;
+    private double price;
     private String side;
 
     public ClientOrder(String orderId, String product, double price, int quantity, String side) {

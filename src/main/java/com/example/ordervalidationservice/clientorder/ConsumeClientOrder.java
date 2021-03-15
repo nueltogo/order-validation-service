@@ -1,5 +1,6 @@
 package com.example.ordervalidationservice.clientorder;
 
+import com.example.ordervalidationservice.validator.Validator;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -15,25 +16,27 @@ import java.io.IOException;
 @Endpoint
 public class ConsumeClientOrder {
     private static final String NAMESPACE_URI = "http://trade-engine/order-validation-service";
+    private Order clientOrder;
 
     @Autowired
     public ConsumeClientOrder() {
     }
 
+    public Order getClientOrder() {
+        return this.clientOrder;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOrderRequest")
     @ResponsePayload
-    public GetOrderResponse getCountry(@RequestPayload GetOrderRequest request) throws IOException {
+    public GetOrderResponse getClientOrder(@RequestPayload GetOrderRequest request) throws IOException {
         GetOrderResponse response = new GetOrderResponse();
+        Order order = request.getOrder();
+//        ClientOrder clientOrder = new ClientOrder(order.getOrderId(), order.getProduct(), order.getPrice(),order.getQuantity(),order.getSide());
+        this.clientOrder = order;
         response.setOrder(request.getOrder());
-//        Order anOrder = convertToPojos(request);
-//        System.out.println(anOrder);
+        Validator validator = new Validator();
+        System.out.println(validator.validateOrderPrice(order));
         return response;
     }
 
-//    private Order convertToPojos(GetOrderRequest request) throws IOException {
-//        XmlMapper xmlMapper = new XmlMapper();
-//        System.out.println(request.toString());
-//        Order clientOrder = xmlMapper.readValue(request.getOrder().toString(), Order.class);
-//        return clientOrder;
-//    }
 }
