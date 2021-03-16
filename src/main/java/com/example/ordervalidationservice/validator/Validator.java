@@ -33,13 +33,21 @@ public class Validator {
         if(order.getSide().equals("SELL")){
             double exOnePrice = exOneProduct.get(0).getAskPrice();
             double exTwoPrice = exTwoProduct.get(0).getAskPrice();
-//            if()
+            double upperBoundExOne = exOnePrice+(exOnePrice*0.1);
+            double lowerBoundExOne = exOnePrice-(exOnePrice*0.1);
+            double upperBoundExTwo = exTwoPrice+(exTwoPrice*0.1);
+            double lowerBoundExTwo = exTwoPrice-(exTwoPrice*0.1);
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo;
         }
-        if(order.getSide().equals("BUY")){
+        else{
             double exOnePrice = exOneProduct.get(0).getBidPrice();
             double exTwoPrice = exTwoProduct.get(0).getBidPrice();
+            double upperBoundExOne = exOnePrice+(exOnePrice*0.1);
+            double lowerBoundExOne = exOnePrice-(exOnePrice*0.1);
+            double upperBoundExTwo = exTwoPrice+(exTwoPrice*0.1);
+            double lowerBoundExTwo = exTwoPrice-(exTwoPrice*0.1);
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo;
         }
-        return true;
     }
 
 }

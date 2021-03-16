@@ -1,7 +1,6 @@
 package com.example.ordervalidationservice.clientorder;
 
 import com.example.ordervalidationservice.validator.Validator;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -26,17 +25,16 @@ public class ConsumeClientOrder {
         return this.clientOrder;
     }
 
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOrderRequest")
     @ResponsePayload
     public GetOrderResponse getClientOrder(@RequestPayload GetOrderRequest request) throws IOException {
         GetOrderResponse response = new GetOrderResponse();
         Order order = request.getOrder();
-//        ClientOrder clientOrder = new ClientOrder(order.getOrderId(), order.getProduct(), order.getPrice(),order.getQuantity(),order.getSide());
         this.clientOrder = order;
         response.setOrder(request.getOrder());
         Validator validator = new Validator();
         System.out.println(validator.validateOrderPrice(order));
         return response;
     }
-
 }
