@@ -15,13 +15,13 @@ import java.io.IOException;
 @Endpoint
 public class ConsumeClientOrder {
     private static final String NAMESPACE_URI = "http://trade-engine/order-validation-service";
-    private Order clientOrder;
+    private ClientOrder clientOrder;
 
     @Autowired
     public ConsumeClientOrder() {
     }
 
-    public Order getClientOrder() {
+    public ClientOrder getClientOrder() {
         return this.clientOrder;
     }
 
@@ -31,10 +31,16 @@ public class ConsumeClientOrder {
     public GetOrderResponse getClientOrder(@RequestPayload GetOrderRequest request) throws IOException {
         GetOrderResponse response = new GetOrderResponse();
         Order order = request.getOrder();
-        this.clientOrder = order;
+
         response.setOrder(request.getOrder());
         Validator validator = new Validator();
-        System.out.println(validator.validateOrderPrice(order));
+
+        if(validator.validateOrderPrice(order)){
+            System.out.println(validator.validateOrderPrice(order));
+            this.clientOrder = new ClientOrder(order.getOrderId(),order.getProduct(), order.getPrice(), order.getQuantity(), order.getSide());
+            SendClientOrder sendClientOrder = new SendClientOrder();
+            sendClientOrder.postOrder(clientOrder);
+        }
         return response;
     }
 }
