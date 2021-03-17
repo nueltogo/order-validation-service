@@ -3,9 +3,18 @@ package com.example.ordervalidationservice.clientorder;
 public class ClientOrder {
     private String orderId;
     private String product;
-    private double price;
     private int quantity;
+    private double price;
     private String side;
+    private String Status;
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
 
     public ClientOrder(String orderId, String product, double price, int quantity, String side) {
         this.orderId = orderId;
@@ -70,9 +79,10 @@ public class ClientOrder {
         return "ClientOrder{" +
                 "orderId='" + orderId + '\'' +
                 ", product='" + product + '\'' +
-                ", price=" + price +
                 ", quantity=" + quantity +
+                ", price=" + price +
                 ", side='" + side + '\'' +
+                ", Status='" + Status + '\'' +
                 '}';
     }
 }

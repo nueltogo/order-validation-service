@@ -1,6 +1,6 @@
 package com.example.ordervalidationservice.clientorder;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.example.ordervalidationservice.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -15,25 +15,32 @@ import java.io.IOException;
 @Endpoint
 public class ConsumeClientOrder {
     private static final String NAMESPACE_URI = "http://trade-engine/order-validation-service";
+    private ClientOrder clientOrder;
 
     @Autowired
     public ConsumeClientOrder() {
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOrderRequest")
-    @ResponsePayload
-    public GetOrderResponse getCountry(@RequestPayload GetOrderRequest request) throws IOException {
-        GetOrderResponse response = new GetOrderResponse();
-        response.setOrder(request.getOrder());
-//        Order anOrder = convertToPojos(request);
-//        System.out.println(anOrder);
-        return response;
+    public ClientOrder getClientOrder() {
+        return this.clientOrder;
     }
 
-//    private Order convertToPojos(GetOrderRequest request) throws IOException {
-//        XmlMapper xmlMapper = new XmlMapper();
-//        System.out.println(request.toString());
-//        Order clientOrder = xmlMapper.readValue(request.getOrder().toString(), Order.class);
-//        return clientOrder;
-//    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOrderRequest")
+    @ResponsePayload
+    public GetOrderResponse getClientOrder(@RequestPayload GetOrderRequest request) throws IOException {
+        GetOrderResponse response = new GetOrderResponse();
+        Order order = request.getOrder();
+
+        response.setOrder(request.getOrder());
+        Validator validator = new Validator();
+
+        if(validator.validateOrderPrice(order)){
+            System.out.println(validator.validateOrderPrice(order));
+            this.clientOrder = new ClientOrder(order.getOrderId(),order.getProduct(), order.getPrice(), order.getQuantity(), order.getSide());
+            SendClientOrder sendClientOrder = new SendClientOrder();
+            sendClientOrder.postOrder(clientOrder);
+        }
+        return response;
+    }
 }
