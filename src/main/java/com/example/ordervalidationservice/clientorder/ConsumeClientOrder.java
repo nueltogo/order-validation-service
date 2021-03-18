@@ -26,7 +26,7 @@ public class ConsumeClientOrder {
     }
 
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOrderRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetOrderRequest")
     @ResponsePayload
     public GetOrderResponse getClientOrder(@RequestPayload GetOrderRequest request) throws IOException {
         GetOrderResponse response = new GetOrderResponse();
