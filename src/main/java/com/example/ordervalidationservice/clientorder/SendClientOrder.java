@@ -18,7 +18,7 @@ public class SendClientOrder {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-        String answer = restTemplate.postForObject(url, entity, String.class);
-        System.out.println(answer);
+//        String answer = restTemplate.postForObject(url, entity, String.class);
+//        System.out.println(answer);
     }
 }
