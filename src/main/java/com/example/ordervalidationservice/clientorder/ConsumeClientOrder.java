@@ -11,6 +11,7 @@ import trade_engine.order_validation_service.GetOrderResponse;
 import trade_engine.order_validation_service.Order;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Endpoint
 public class ConsumeClientOrder {
@@ -32,14 +33,23 @@ public class ConsumeClientOrder {
         GetOrderResponse response = new GetOrderResponse();
         Order order = request.getOrder();
 
-        response.setOrder(request.getOrder());
         Validator validator = new Validator();
 
         if(validator.validateOrderPrice(order)){
+            response.setOrderId(order.getOrderId());
+            response.setValidationStatus("VALIDATED");
             System.out.println(validator.validateOrderPrice(order));
-            this.clientOrder = new ClientOrder(order.getOrderId(),order.getProduct(), order.getPrice(), order.getQuantity(), order.getSide());
+            this.clientOrder = new ClientOrder(order.getOrderId(),order.getProduct(),
+                    order.getQuantity(),order.getPrice(),
+                    order.getSide(), order.getPortfolioId(),
+                    order.getClientId(), "VALIDATED",
+                    "PENDING", LocalDate.now());
             SendClientOrder sendClientOrder = new SendClientOrder();
             sendClientOrder.postOrder(clientOrder);
+        }
+        else{
+            response.setOrderId(order.getOrderId());
+            response.setValidationStatus("REJECTED");
         }
         return response;
     }

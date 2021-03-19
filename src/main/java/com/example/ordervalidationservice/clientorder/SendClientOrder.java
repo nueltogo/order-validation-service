@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 public class SendClientOrder {
     public void postOrder(ClientOrder clientOrder) throws JsonProcessingException {
         //return new ResponseEntity<Object>(object,HttpStatus.OK);
-        System.out.println("Posted");
         String url = "http://localhost:8083/engine";
         ObjectMapper mapper = new ObjectMapper();
         String requestJson = mapper.writeValueAsString(clientOrder);
@@ -18,7 +17,6 @@ public class SendClientOrder {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-//        String answer = restTemplate.postForObject(url, entity, String.class);
-//        System.out.println(answer);
+        //String answer = restTemplate.postForObject(url, entity, String.class);
     }
 }
