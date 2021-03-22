@@ -1,8 +1,12 @@
 package com.example.ordervalidationservice.validator;
 
+import com.example.ordervalidationservice.client.Client;
+import com.example.ordervalidationservice.client.ClientData;
 import com.example.ordervalidationservice.marketdata.Product;
 import com.example.ordervalidationservice.marketdata.ProductPricing;
 import com.example.ordervalidationservice.marketdata.ProductPricingController;
+import com.example.ordervalidationservice.product.ProductData;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import trade_engine.order_validation_service.Order;
 
 import java.util.ArrayList;
@@ -12,15 +16,23 @@ import java.util.stream.Collectors;
 
 public class Validator {
 
-    public Boolean validateClientBalance(String clientId){
-        return true;
+    private Boolean validateClientBalance(Order order) throws JsonProcessingException {
+        Client client = new Client(order.getClientId());
+        ClientData clientData = new ClientData();
+        Client clientbalance = clientData.getClientData(client);
+        return clientbalance.getBalance() >= (order.getPrice() * order.getQuantity());
     }
 
-    public Boolean validateClientPortfolio(String clientId){
-        return true;
+    private Boolean validateClientPortfolio(Order order){
+        ProductData productData = new ProductData();
+        List<com.example.ordervalidationservice.product.Product> products = Arrays.asList(productData.products(order.getPortfolioId()));
+        ArrayList<com.example.ordervalidationservice.product.Product> productList = new ArrayList(products);
+        List<com.example.ordervalidationservice.product.Product> validProduct = productList.stream().filter(x->x.getTicker().equals(order.getProduct())).filter(x->x.getQuantity()>=order.getQuantity()).collect(Collectors.toList());
+        System.out.println(validProduct);
+        return !validProduct.isEmpty();
     }
 
-    public Boolean validateOrderPrice(Order order){
+    private Boolean validateOrderPrice(Order order){
         double orderPrice = order.getPrice();
         ProductPricing productPricings = new ProductPricing();
         ProductPricingController productPricing = new ProductPricingController(productPricings);
@@ -47,6 +59,15 @@ public class Validator {
             double upperBoundExTwo = exTwoPrice+(exTwoPrice*0.1);
             double lowerBoundExTwo = exTwoPrice-(exTwoPrice*0.1);
             return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo;
+        }
+    }
+
+    public Boolean validate(Order order) throws JsonProcessingException {
+        if(order.getSide().equals("SELL")){
+            return this.validateClientPortfolio(order) && this.validateOrderPrice(order);
+        }
+        else{
+            return this.validateClientBalance(order) && this.validateOrderPrice(order);
         }
     }
 

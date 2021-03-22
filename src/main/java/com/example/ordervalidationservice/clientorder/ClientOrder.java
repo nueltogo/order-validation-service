@@ -17,7 +17,7 @@ public class ClientOrder {
     public ClientOrder() {
     }
 
-    public ClientOrder(String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status, LocalDate createAt) {
+    public ClientOrder(String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status) {
         this.product = product;
         this.quantity = quantity;
         this.price = price;
@@ -25,11 +25,10 @@ public class ClientOrder {
         this.portfolioId = portfolioId;
         this.clientId = clientId;
         this.validationStatus = validationStatus;
-        Status = status;
-        this.createAt = createAt;
+        this.Status = status;
     }
 
-    public ClientOrder(long orderId, String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status, LocalDate createAt) {
+    public ClientOrder(long orderId, String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status) {
         this.orderId = orderId;
         this.product = product;
         this.quantity = quantity;
@@ -39,7 +38,6 @@ public class ClientOrder {
         this.clientId = clientId;
         this.validationStatus = validationStatus;
         Status = status;
-        this.createAt = createAt;
     }
 
     public long getOrderId() {
