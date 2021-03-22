@@ -9,7 +9,7 @@ public class ProductData {
 
     public Product[] products(long portfolioId){
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/api/v1/product/portfolioId/" + portfolioId;
+        String url = "https://tradeenginedb.herokuapp.com/api/v1/product/portfolioId/" + portfolioId;
         ResponseEntity<Product[]> responseEntity = restTemplate.getForEntity(url,Product[].class);
         return responseEntity.getBody();
     }

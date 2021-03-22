@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class ClientData {
     public Client getClientData(Client clientId) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/api/v1/client/id";
+        String url = "https://tradeenginedb.herokuapp.com/api/v1/client/id";
         ObjectMapper mapper = new ObjectMapper();
         String requestJson = mapper.writeValueAsString(clientId);
         HttpHeaders headers = new HttpHeaders();

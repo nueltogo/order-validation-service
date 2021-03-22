@@ -10,5 +10,4 @@ public class OrderValidationServiceApplication {
 		SpringApplication.run(OrderValidationServiceApplication.class, args);
 
 	}
-
 }
