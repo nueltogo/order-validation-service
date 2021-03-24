@@ -24,6 +24,7 @@ public class SendClientOrder {
 
     public void persistToDb(ClientOrder clientOrder) throws JsonProcessingException {
         String url = "https://tradeenginedb.herokuapp.com/api/v1/clientorder/new";
+        //String url = "http://localhost:8081/api/v1/clientorder/new";
         ObjectMapper mapper = new ObjectMapper();
         String requestJson = mapper.writeValueAsString(clientOrder);
         //System.out.println(requestJson);
