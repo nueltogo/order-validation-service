@@ -45,20 +45,20 @@ public class Validator {
         if(order.getSide().equals("SELL")){
             double exOnePrice = exOneProduct.get(0).getAskPrice();
             double exTwoPrice = exTwoProduct.get(0).getAskPrice();
-            double upperBoundExOne = exOnePrice+(exOnePrice*0.1);
-            double lowerBoundExOne = exOnePrice-(exOnePrice*0.1);
-            double upperBoundExTwo = exTwoPrice+(exTwoPrice*0.1);
-            double lowerBoundExTwo = exTwoPrice-(exTwoPrice*0.1);
-            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo;
+            double upperBoundExOne = exOnePrice+exOneProduct.get(0).getMaxPriceShift();
+            double lowerBoundExOne = exOnePrice-exOneProduct.get(0).getMaxPriceShift();
+            double upperBoundExTwo = exTwoPrice+exTwoProduct.get(0).getMaxPriceShift();
+            double lowerBoundExTwo = exTwoPrice-exTwoProduct.get(0).getMaxPriceShift();
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getSellLimit() || order.getQuantity() <= exTwoProduct.get(0).getSellLimit();
         }
         else{
             double exOnePrice = exOneProduct.get(0).getBidPrice();
             double exTwoPrice = exTwoProduct.get(0).getBidPrice();
-            double upperBoundExOne = exOnePrice+(exOnePrice*0.1);
-            double lowerBoundExOne = exOnePrice-(exOnePrice*0.1);
-            double upperBoundExTwo = exTwoPrice+(exTwoPrice*0.1);
-            double lowerBoundExTwo = exTwoPrice-(exTwoPrice*0.1);
-            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo;
+            double upperBoundExOne = exOnePrice+exOneProduct.get(0).getMaxPriceShift();
+            double lowerBoundExOne = exOnePrice-exOneProduct.get(0).getMaxPriceShift();
+            double upperBoundExTwo = exTwoPrice+exTwoProduct.get(0).getMaxPriceShift();
+            double lowerBoundExTwo = exTwoPrice-exTwoProduct.get(0).getMaxPriceShift();
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getBuyLimit() || order.getQuantity() <= exTwoProduct.get(0).getBuyLimit();
         }
     }
 
