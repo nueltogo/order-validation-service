@@ -52,12 +52,13 @@ public class ConsumeClientOrder {
             response.setValidationStatus("VALIDATED");
             System.out.println(validator.validate(order));
             this.clientOrder.setValidationStatus("VALIDATED");
-            jedis.publish("report-message", clientOrder.toString()+" has been validated the order validation service");
+
 
             SendClientOrder sendClientOrder = new SendClientOrder();
             clientOrder = sendClientOrder.persistToDb(clientOrder);
+            jedis.publish("report-message", clientOrder.toString()+" has been validated the order validation service");
             sendClientOrder.postOrder(clientOrder);
-
+            jedis.publish("report-message", clientOrder.toString()+" has been sent to the trade engine service");
 
         }
         else{
