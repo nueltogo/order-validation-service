@@ -2,7 +2,6 @@ package com.example.ordervalidationservice.clientorder;
 
 import com.example.ordervalidationservice.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -44,7 +43,6 @@ public class ConsumeClientOrder {
                 order.getClientId(), "PENDING",
                 "PENDING");
 
-        System.out.println("The server is running " + jedis.ping());
         jedis.publish("report-message", clientOrder.toString()+" has been received into the order validation service");
 
         Validator validator = new Validator();
@@ -57,9 +55,10 @@ public class ConsumeClientOrder {
             jedis.publish("report-message", clientOrder.toString()+" has been validated the order validation service");
 
             SendClientOrder sendClientOrder = new SendClientOrder();
+            clientOrder = sendClientOrder.persistToDb(clientOrder);
             sendClientOrder.postOrder(clientOrder);
 
-            sendClientOrder.persistToDb(clientOrder);
+
         }
         else{
             response.setOrderId(order.getOrderId());
