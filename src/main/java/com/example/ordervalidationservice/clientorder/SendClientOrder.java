@@ -20,7 +20,7 @@ public class SendClientOrder {
         System.out.println(answer);
     }
 
-    public ClientOrder persistToDb(ClientOrder clientOrder) throws JsonProcessingException {
+    public long persistToDb(ClientOrder clientOrder) throws JsonProcessingException {
         String url = "https://tradeenginedb.herokuapp.com/api/v1/clientorder/new";
         ObjectMapper mapper = new ObjectMapper();
         String requestJson = mapper.writeValueAsString(clientOrder);
@@ -30,7 +30,7 @@ public class SendClientOrder {
 
         HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
 
-        return restTemplate.postForObject(url, entity, ClientOrder.class);
+        return restTemplate.postForObject(url, entity, Long.class);
     }
 
 
