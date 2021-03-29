@@ -49,7 +49,7 @@ public class Validator {
             double lowerBoundExOne = exOnePrice-exOneProduct.get(0).getMaxPriceShift();
             double upperBoundExTwo = exTwoPrice+exTwoProduct.get(0).getMaxPriceShift();
             double lowerBoundExTwo = exTwoPrice-exTwoProduct.get(0).getMaxPriceShift();
-            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getSellLimit() || order.getQuantity() <= exTwoProduct.get(0).getSellLimit();
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getSellLimit() && order.getQuantity() <= exTwoProduct.get(0).getSellLimit();
         }
         else{
             double exOnePrice = exOneProduct.get(0).getBidPrice();
@@ -58,7 +58,7 @@ public class Validator {
             double lowerBoundExOne = exOnePrice-exOneProduct.get(0).getMaxPriceShift();
             double upperBoundExTwo = exTwoPrice+exTwoProduct.get(0).getMaxPriceShift();
             double lowerBoundExTwo = exTwoPrice-exTwoProduct.get(0).getMaxPriceShift();
-            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getBuyLimit() || order.getQuantity() <= exTwoProduct.get(0).getBuyLimit();
+            return orderPrice >= lowerBoundExOne && orderPrice <= upperBoundExOne ||  orderPrice >= lowerBoundExTwo && orderPrice <= upperBoundExTwo || order.getQuantity() <= exOneProduct.get(0).getBuyLimit() && order.getQuantity() <= exTwoProduct.get(0).getBuyLimit();
         }
     }
 
