@@ -3,7 +3,7 @@ package com.example.ordervalidationservice.clientorder;
 import java.time.LocalDate;
 
 public class ClientOrder {
-    private long orderId;
+    private long clientOrderId;
     private String product;
     private int quantity;
     private double price;
@@ -28,8 +28,8 @@ public class ClientOrder {
         this.Status = status;
     }
 
-    public ClientOrder(long orderId, String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status) {
-        this.orderId = orderId;
+    public ClientOrder(long clientOrderId, String product, int quantity, double price, String side, long portfolioId, long clientId, String validationStatus, String status) {
+        this.clientOrderId = clientOrderId;
         this.product = product;
         this.quantity = quantity;
         this.price = price;
@@ -40,12 +40,12 @@ public class ClientOrder {
         Status = status;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public long getClientOrderId() {
+        return clientOrderId;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setClientOrderId(long clientOrderId) {
+        this.clientOrderId = clientOrderId;
     }
 
     public String getProduct() {
@@ -123,7 +123,7 @@ public class ClientOrder {
     @Override
     public String toString() {
         return "ClientOrder{" +
-                "orderId=" + orderId +
+                "orderId=" + clientOrderId +
                 ", product='" + product + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +

@@ -56,7 +56,7 @@ public class ConsumeClientOrder {
 
             SendClientOrder sendClientOrder = new SendClientOrder();
             long clientOrderId = sendClientOrder.persistToDb(clientOrder);
-            clientOrder.setOrderId(clientOrderId);
+            clientOrder.setClientOrderId(clientOrderId);
             jedis.publish("report-message", clientOrder.toString()+" has been validated the order validation service");
             sendClientOrder.postOrder(clientOrder);
             jedis.publish("report-message", clientOrder.toString()+" has been sent to the trade engine service");
